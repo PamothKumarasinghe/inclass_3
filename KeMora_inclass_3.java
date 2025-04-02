@@ -18,8 +18,6 @@
 import java.util.*;
 
 
-
-
 class Studyroom {
     private int roomNumber;
     private int capacity;
@@ -53,14 +51,14 @@ class Studyroom {
         // Now student is reserving the study room, so availiabilty is false
         isAvailable = false;
 
-        // Threading is done here
+
         // room is reserved
         System.out.println(Thread.currentThread().getName() + " reserved room " + roomNumber);
         }
     }
 
     public void release() {
-        synchronized (lock) {  // Ensure thread safety
+        synchronized (lock) {  // Ensure the safety of the thread
             isAvailable = true;
             System.out.println("Room " + roomNumber + " released.");
         }
@@ -68,15 +66,15 @@ class Studyroom {
 }
 
 class Student extends Thread { //Lecture note
-    private List<Studyroom> sR;
+    private List<Studyroom> sR; // This sR contains the list of studyrooms
     private Random randomInt = new Random(); //Used Random class to generate a random number between 0 and 3 as three studyrooms
 
     public Student(List<Studyroom> studyRooms, String name) {
-        super(name);
+        super(name); // supeer in thread
         this.sR = studyRooms;
     }
 
-    @Override
+    @Override //overriding the run method in therad class
     public void run() {
         for (int i = 0; i < 3; i++) {   // for same student running three times
             try {
@@ -84,15 +82,13 @@ class Student extends Thread { //Lecture note
                 room.reservation();
                 Thread.sleep(2000);
                 room.release();
+
             } catch (StudyRoomUnavailableException | InterruptedException e) {
-                System.out.println(Thread.currentThread().getName() + " couldn't reserve a room: " + e.getMessage());
+                System.out.println(Thread.currentThread().getName() + " selected room coudln't be reserved - " + e.getMessage());
             }
         }
     }
 }
-
-
-
 
 class StudyRoomUnavailableException extends Exception {
     public StudyRoomUnavailableException(String message) {
@@ -102,8 +98,8 @@ class StudyRoomUnavailableException extends Exception {
 
 public class KeMora_inclass_3 {
     public static void main(String[] args) {
-        List<Studyroom> studyRooms = new ArrayList<>();
-        studyRooms.add(new Studyroom(1, 4));
+        List<Studyroom> studyRooms = new ArrayList<>(); // This sR contains the list of studyrooms
+        studyRooms.add(new Studyroom(1, 4)); //Adding the rooms and capacity to the list by ourelves
         studyRooms.add(new Studyroom(2, 6));
         studyRooms.add(new Studyroom(3, 8));
 
