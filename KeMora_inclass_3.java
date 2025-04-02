@@ -36,6 +36,16 @@ class Studyroom {
     public boolean availability() {
         return isAvailable;
     }
+
+    public void reservation(int roomNumber) throws StudyRoomUnavailableException {
+        if (!isAvailable) {
+            throw new StudyRoomUnavailableException("Study room " + roomNumber + " is unavailable.");
+        }
+        else{
+            // Threading is done here
+        }
+ 
+    }
 }
 class StudyRoomUnavailableException extends Exception {
     public StudyRoomUnavailableException(String message) {
