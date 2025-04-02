@@ -25,6 +25,8 @@ class Studyroom {
     private int capacity;
     private boolean isAvailable;
 
+    private final Object lock = new Object();
+
     Studyroom(int roomNumber, int capacity) {
         this.roomNumber = roomNumber;
         this.capacity = capacity;
@@ -44,6 +46,7 @@ class Studyroom {
     }
 
     public void reservation() throws StudyRoomUnavailableException {
+        synchronized (lock) {
         if (!isAvailable) {
             throw new StudyRoomUnavailableException("Study room " + roomNumber + " is unavailable.");
         }
@@ -52,7 +55,15 @@ class Studyroom {
 
         // Threading is done here
         // room is reserved
- 
+        System.out.println(Thread.currentThread().getName() + " reserved room " + roomNumber);
+        }
+    }
+
+    public void release() {
+        synchronized (lock) {  // Ensure thread safety
+            isAvailable = true;
+            System.out.println("Room " + roomNumber + " released.");
+        }
     }
 }
 
@@ -71,8 +82,8 @@ class Student extends Thread { //Lecture note
             try {
                 Studyroom room = sR.get(randomInt.nextInt(sR.size()));
                 room.reservation();
-                Thread.sleep(2000); 
-                room.reservation();
+                Thread.sleep(2000);
+                room.release();
             } catch (StudyRoomUnavailableException | InterruptedException e) {
                 System.out.println(Thread.currentThread().getName() + " couldn't reserve a room: " + e.getMessage());
             }
@@ -90,7 +101,7 @@ class StudyRoomUnavailableException extends Exception {
 }
 
 public class KeMora_inclass_3 {
-    public static void main() {
+    public static void main(String[] args) {
         List<Studyroom> studyRooms = new ArrayList<>();
         studyRooms.add(new Studyroom(1, 4));
         studyRooms.add(new Studyroom(2, 6));
