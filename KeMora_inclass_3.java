@@ -25,6 +25,17 @@ class Studyroom {
         this.isAvailable = true;
     }
 
+    public int getRoom() {
+        return roomNumber;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public boolean availability() {
+        return isAvailable;
+    }
 }
 class StudyRoomUnavailableException extends Exception {
     public StudyRoomUnavailableException(String message) {
