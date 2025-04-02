@@ -18,6 +18,8 @@
 import java.util.*;
 
 
+
+
 class Studyroom {
     private int roomNumber;
     private int capacity;
@@ -77,7 +79,7 @@ class Student extends Thread { //Lecture note
         }
     }
 }
-asd
+
 
 
 
@@ -89,6 +91,18 @@ class StudyRoomUnavailableException extends Exception {
 
 public class KeMora_inclass_3 {
     public static void main() {
+        List<Studyroom> studyRooms = new ArrayList<>();
+        studyRooms.add(new Studyroom(1, 4));
+        studyRooms.add(new Studyroom(2, 6));
+        studyRooms.add(new Studyroom(3, 8));
+
+        Student s1 = new Student(studyRooms, "Student 1");
+        Student s2 = new Student(studyRooms, "Student 2");
+        Student s3 = new Student(studyRooms, "Student 3");
+
+        s1.start();
+        s2.start();
+        s3.start();
 
     }
 }
