@@ -12,6 +12,7 @@
  * concurrency management
  * execution requirments
  */
+import java.util.*;
 
 
 class Studyroom {
@@ -37,16 +38,46 @@ class Studyroom {
         return isAvailable;
     }
 
-    public void reservation(int roomNumber) throws StudyRoomUnavailableException {
+    public void reservation() throws StudyRoomUnavailableException {
         if (!isAvailable) {
             throw new StudyRoomUnavailableException("Study room " + roomNumber + " is unavailable.");
         }
-        else{
-            // Threading is done here
-        }
+        // Now student is reserving the study room, so availiabilty is false
+        isAvailable = false;
+
+        // Threading is done here
+        // room is reserved
  
     }
 }
+
+class Student extends Thread { //Lecture note
+    private List<Studyroom> sR;
+    private Random randomInt = new Random(); //Used Random class to generate a random number between 0 and 3 as three studyrooms
+
+    public Student(List<Studyroom> studyRooms, String name) {
+        super(name);
+        this.sR = studyRooms;
+    }
+
+    @Override
+    public void run() {
+        for (int i = 0; i < 3; i++) {   // for same student running three times
+            try {
+                Studyroom room = sR.get(randomInt.nextInt(sR.size()));
+                room.reservation();
+                Thread.sleep(2000); // Simulating study session
+                room.reservation();
+            } catch (StudyRoomUnavailableException | InterruptedException e) {
+                System.out.println(Thread.currentThread().getName() + " couldn't reserve a room: " + e.getMessage());
+            }
+        }
+    }
+}
+
+
+
+
 class StudyRoomUnavailableException extends Exception {
     public StudyRoomUnavailableException(String message) {
         super(message);
