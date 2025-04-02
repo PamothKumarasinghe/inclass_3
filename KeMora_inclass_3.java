@@ -12,6 +12,9 @@
  * concurrency management
  * execution requirments
  */
+
+// This is shit //
+
 import java.util.*;
 
 
@@ -66,7 +69,7 @@ class Student extends Thread { //Lecture note
             try {
                 Studyroom room = sR.get(randomInt.nextInt(sR.size()));
                 room.reservation();
-                Thread.sleep(2000); // Simulating study session
+                Thread.sleep(2000); 
                 room.reservation();
             } catch (StudyRoomUnavailableException | InterruptedException e) {
                 System.out.println(Thread.currentThread().getName() + " couldn't reserve a room: " + e.getMessage());
