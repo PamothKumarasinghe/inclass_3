@@ -12,6 +12,20 @@
  * concurrency management
  * execution requirments
  */
+
+
+class Studyroom {
+    private int roomNumber;
+    private int capacity;
+    private boolean isAvailable;
+
+    Studyroom(int roomNumber, int capacity) {
+        this.roomNumber = roomNumber;
+        this.capacity = capacity;
+        this.isAvailable = true;
+    }
+
+}
 class StudyRoomUnavailableException extends Exception {
     public StudyRoomUnavailableException(String message) {
         super(message);
